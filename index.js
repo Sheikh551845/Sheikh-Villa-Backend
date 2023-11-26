@@ -44,6 +44,17 @@ async function run() {
         res.send(result);
       });
 
+      app.post("/Agreement", async (req, res)=> 
+      {
+
+          const Apartment= req.body;
+          console.log(Apartment)
+          const result= await Agreement.insertOne(Apartment);
+          console.log(result)
+          res.send(result);
+  
+      });
+
   
   
     await client.db("admin").command({ ping: 1 });
