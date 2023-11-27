@@ -55,6 +55,24 @@ async function run() {
   
       });
 
+      app.post("/AllUsers", async (req, res)=> 
+      {
+
+          const User= req.body;
+          console.log(User)
+          const result= await AllUsers.insertOne(User);
+          console.log(result)
+          res.send(result);
+  
+      });
+
+      app.get("/Agreement", async(req,res)=>
+      {
+        const cursor = Agreement.find();
+        const result=await cursor.toArray();
+        res.send(result);
+      });
+
   
   
     await client.db("admin").command({ ping: 1 });
