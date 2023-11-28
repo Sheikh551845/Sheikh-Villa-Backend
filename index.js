@@ -36,6 +36,8 @@ async function run() {
       const AllApartment=SheikhVilla.collection("AllApartment");
       const AllUsers=SheikhVilla.collection("AllUsers");
       const Agreement=SheikhVilla.collection("Agreement");
+      const AllCoupon=SheikhVilla.collection("AllCoupon");
+      const AllAnnouncement=SheikhVilla.collection("AllAnnouncement");
   
       app.get("/AllApartment", async(req,res)=>
       {
@@ -65,10 +67,43 @@ async function run() {
           res.send(result);
   
       });
+      app.post("/AllCoupon", async (req, res)=> 
+      {
+
+          const Coupon= req.body;
+          console.log(Coupon)
+          const result= await AllCoupon.insertOne(Coupon);
+          console.log(result)
+          res.send(result);
+  
+      });
+      app.post("/AllAnnouncement", async (req, res)=> 
+      {
+
+          const Announcement= req.body;
+          console.log(Announcement)
+          const result= await AllAnnouncement.insertOne(Announcement);
+          console.log(result)
+          res.send(result);
+  
+      });
 
       app.get("/Agreement", async(req,res)=>
       {
         const cursor = Agreement.find();
+        const result=await cursor.toArray();
+        res.send(result);
+      });
+
+      app.get("/AllCoupon", async(req,res)=>
+      {
+        const cursor = AllCoupon.find();
+        const result=await cursor.toArray();
+        res.send(result);
+      });
+      app.get("/AllAnnouncement", async(req,res)=>
+      {
+        const cursor = AllAnnouncement.find();
         const result=await cursor.toArray();
         res.send(result);
       });
