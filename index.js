@@ -87,6 +87,14 @@ async function run() {
         res.send(result);
         
     })
+
+    app.delete('/Agreement/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await Agreement.deleteOne(filter);
+      res.send(result);
+      
+  })
   
   
     await client.db("admin").command({ ping: 1 });
