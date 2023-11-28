@@ -73,6 +73,20 @@ async function run() {
         res.send(result);
       });
 
+      app.get("/AllUser", async(req,res)=>
+      {
+        const cursor = AllUsers.find();
+        const result=await cursor.toArray();
+        res.send(result);
+      });
+
+      app.delete('/User/:id', async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const result = await AllUsers.deleteOne(filter);
+        res.send(result);
+        
+    })
   
   
     await client.db("admin").command({ ping: 1 });
