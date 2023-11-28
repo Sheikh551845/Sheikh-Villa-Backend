@@ -95,6 +95,45 @@ async function run() {
       res.send(result);
       
   })
+  app.patch("/User/:id", async(req,res)=>
+  {
+    const id=req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const options = { upsert: true };
+            const updatedUser= req.body;
+
+            const NewUser= {
+                $set: {
+                  
+                  role : updatedUser.role,
+                }
+            }
+            console.log(NewUser)
+
+            const result = await AllUsers.updateOne(filter, NewUser);
+            res.send(result);
+  })
+
+  app.patch("/Agreement/:id", async(req,res)=>
+  {
+    const id=req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const options = { upsert: true };
+            const updatedAgreement= req.body;
+
+            const NewAgreement= {
+                $set: {
+                  
+                  status : updatedAgreement.status,
+                }
+            }
+            
+
+            const result = await Agreement.updateOne(filter, NewAgreement);
+            res.send(result);
+  })
+
+
   
   
     await client.db("admin").command({ ping: 1 });
