@@ -3,7 +3,7 @@ const cors = require("cors");
 const express = require('express');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT||8888;
-
+const stripe= require('stripe')(process.env.STRIPE_SECRET_KEY)
 const app= express();
 app.use(cors());
 app.use(express.json());
@@ -38,6 +38,7 @@ async function run() {
       const Agreement=SheikhVilla.collection("Agreement");
       const AllCoupon=SheikhVilla.collection("AllCoupon");
       const AllAnnouncement=SheikhVilla.collection("AllAnnouncement");
+      const AllPayment=SheikhVilla.collection("AllPayment");
   
       app.get("/AllApartment", async(req,res)=>
       {
@@ -52,6 +53,17 @@ async function run() {
           const Apartment= req.body;
           console.log(Apartment)
           const result= await Agreement.insertOne(Apartment);
+          console.log(result)
+          res.send(result);
+  
+      });
+
+      app.post("/AllPayment", async (req, res)=> 
+      {
+
+          const payment= req.body;
+          console.log(payment)
+          const result= await AllPayment.insertOne(payment);
           console.log(result)
           res.send(result);
   
@@ -86,6 +98,13 @@ async function run() {
           console.log(result)
           res.send(result);
   
+      });
+
+      app.get("/AllPayment", async(req,res)=>
+      {
+        const cursor = AllPayment.find();
+        const result=await cursor.toArray();
+        res.send(result);
       });
 
       app.get("/Agreement", async(req,res)=>
@@ -222,6 +241,23 @@ async function run() {
             const result = await Agreement.updateOne(filter, NewAgreement);
             res.send(result);
   })
+
+
+  app.post('/create-payment-intent', async (req, res) => {
+    const { price } = req.body;
+    const amount = parseInt(price);
+    console.log(amount, 'amount inside the intent')
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd',
+      payment_method_types: ['card']
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret
+    })
+  });
 
 
   
