@@ -95,18 +95,21 @@ async function run() {
         res.send(result);
       });
 
+
       app.get("/AllCoupon", async(req,res)=>
       {
         const cursor = AllCoupon.find();
         const result=await cursor.toArray();
         res.send(result);
       });
+
       app.get("/AllAnnouncement", async(req,res)=>
       {
         const cursor = AllAnnouncement.find();
         const result=await cursor.toArray();
         res.send(result);
       });
+
 
       app.get("/AllUser", async(req,res)=>
       {
@@ -122,6 +125,7 @@ async function run() {
         res.send(result);
         
     })
+    
 
     app.delete('/Agreement/:id', async (req, res) => {
       const id = req.params.id;
@@ -130,6 +134,16 @@ async function run() {
       res.send(result);
       
   })
+
+  app.delete('/AllCoupon/:id', async (req, res) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const result = await AllCoupon.deleteOne(filter);
+    res.send(result);
+    
+})
+
+
   app.patch("/User/:id", async(req,res)=>
   {
     const id=req.params.id;
