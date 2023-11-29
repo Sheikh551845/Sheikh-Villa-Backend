@@ -144,6 +144,8 @@ async function run() {
 })
 
 
+
+
   app.patch("/User/:id", async(req,res)=>
   {
     const id=req.params.id;
@@ -163,6 +165,25 @@ async function run() {
             res.send(result);
   })
 
+  app.patch("/Apartment/:id", async(req,res)=>
+  {
+    const id=req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const options = { upsert: true };
+            const updatedApartment= req.body;
+
+            const NewApartment= {
+                $set: {
+                  
+                  status : updatedApartment.status,
+                }
+            }
+            console.log(NewApartment)
+
+            const result = await AllApartment.updateOne(filter, NewApartment);
+            res.send(result);
+  })
+
   app.patch("/Agreement/:id", async(req,res)=>
   {
     const id=req.params.id;
@@ -174,6 +195,26 @@ async function run() {
                 $set: {
                   
                   status : updatedAgreement.status,
+                }
+            }
+            
+
+            const result = await Agreement.updateOne(filter, NewAgreement);
+            res.send(result);
+  })
+
+  app.patch("/AcceptAgreement/:id", async(req,res)=>
+  {
+    const id=req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const options = { upsert: true };
+            const updatedAgreement= req.body;
+
+            const NewAgreement= {
+                $set: {
+                  
+                  status : updatedAgreement.status,
+                  Accept_date : updatedAgreement.Accept_date
                 }
             }
             
