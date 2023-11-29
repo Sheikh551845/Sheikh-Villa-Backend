@@ -245,7 +245,7 @@ async function run() {
 
   app.post('/create-payment-intent', async (req, res) => {
     const { price } = req.body;
-    const amount = parseInt(price);
+    const amount = parseInt(price*100);
     console.log(amount, 'amount inside the intent')
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -262,8 +262,7 @@ async function run() {
 
   
   
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+   
   
     
     } finally {
